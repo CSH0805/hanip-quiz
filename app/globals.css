@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+/* 한입퀴즈 — "게임 같은 학습 앱" 테마: 짙은 남보라 + 네온 라임 · 핫핑크 */
+@theme {
+  --color-night: #0c0726;
+  --color-indigo-deep: #1b0f52;
+  --color-violet-deep: #2e1478;
+  --color-lime: #c6ff3d;
+  --color-lime-dark: #8fc21a;
+  --color-pink: #ff3d9a;
+  --color-pink-dark: #c21a6c;
+  --color-good: #34e07a;
+  --color-bad: #ff4d6d;
+  --color-muted: #b7aee6;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--color-night);
+  background-image:
+    radial-gradient(900px 500px at 10% -10%, rgba(255, 61, 154, 0.22), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, rgba(198, 255, 61, 0.1), transparent 60%),
+    linear-gradient(160deg, #24106a 0%, #160b45 45%, #0c0726 100%);
+  background-attachment: fixed;
+  color: #f4f1ff;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+}
+
+@layer components {
+  .card {
+    @apply rounded-3xl border border-white/10 bg-white/[0.06] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)] backdrop-blur-sm;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-bold transition-all duration-150 select-none
+      disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-[3px];
+  }
+  .btn-lime {
+    @apply bg-lime text-night shadow-[0_4px_0_0_var(--color-lime-dark)] hover:brightness-105
+      active:shadow-[0_1px_0_0_var(--color-lime-dark)];
+  }
+  .btn-pink {
+    @apply bg-pink text-white shadow-[0_4px_0_0_var(--color-pink-dark)] hover:brightness-110
+      active:shadow-[0_1px_0_0_var(--color-pink-dark)];
+  }
+  .btn-ghost {
+    @apply border border-white/15 bg-white/5 text-white shadow-[0_4px_0_0_rgba(0,0,0,0.35)] hover:bg-white/10
+      active:shadow-[0_1px_0_0_rgba(0,0,0,0.35)];
+  }
+  .btn-danger {
+    @apply bg-bad text-white shadow-[0_4px_0_0_#a8203b] active:shadow-[0_1px_0_0_#a8203b];
+  }
+
+  .chip {
+    @apply inline-flex cursor-pointer items-center gap-1 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold
+      text-muted transition-all select-none hover:bg-white/10 active:scale-95;
+  }
+  .chip[data-on="true"] {
+    @apply border-lime bg-lime/15 text-lime shadow-[0_0_0_3px_rgba(198,255,61,0.15)];
+  }
+
+  .input {
+    @apply w-full rounded-2xl border-2 border-white/10 bg-night/60 px-4 py-3 text-white outline-none transition
+      placeholder:text-white/30 focus:border-lime focus:shadow-[0_0_0_4px_rgba(198,255,61,0.15)];
+  }
+
+  .label {
+    @apply mb-2 block text-sm font-bold text-muted;
+  }
+
+  .choice {
+    @apply relative flex w-full items-center gap-4 rounded-3xl border-2 border-white/12 bg-white/[0.07] px-5 py-4 text-left text-lg
+      font-semibold shadow-[0_5px_0_0_rgba(0,0,0,0.35)] transition-all duration-150 hover:border-white/30 hover:bg-white/10
+      active:translate-y-[4px] active:shadow-[0_1px_0_0_rgba(0,0,0,0.35)] disabled:cursor-default disabled:active:translate-y-0;
+  }
+  .choice[data-state="correct"] {
+    @apply border-good bg-good/20 text-white shadow-[0_5px_0_0_#1d9a51] animate-[pop_0.35s_ease-out];
+  }
+  .choice[data-state="wrong"] {
+    @apply border-bad bg-bad/20 text-white shadow-[0_5px_0_0_#a8203b] animate-[shake_0.45s_ease-in-out];
+  }
+  .choice[data-state="dim"] {
+    @apply opacity-45;
+  }
+
+  .num {
+    @apply font-black tabular-nums tracking-tight;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(9px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(4deg);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.4s ease-out both;
+}
+.animate-float {
+  animation: float 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
